@@ -1,6 +1,7 @@
 create table Lawyer(
-	Id_Lawyer int primary key,
-	Name_Lawyer varchar( 50 ) not null,
+	Lawyer_ID int primary key,
+	FirstName varchar( 15 ) not null,
+	LastName varchar(15) not null,
 	city varchar( 50 ) not null,
 	street varchar( 50 ) not null,
 	apartment int not null
@@ -8,15 +9,16 @@ create table Lawyer(
  
 create table Lawyer_Phone
 (
-	Id_Lawyer int,
+	Lawyer_ID int,
 	Phone varchar(15) not null,
-	FOREIGN KEY (Id_Lawyer) REFERENCES Lawyer(Id_Lawyer),
-	CONSTRAINT PK_Lawyer_Phone PRIMARY KEY (Id_Lawyer,Phone)
+	FOREIGN KEY (Lawyer_ID) REFERENCES Lawyer(Lawyer_ID),
+	CONSTRAINT PK_Lawyer_Phone PRIMARY KEY (Lawyer_ID,Phone)
 )
  
 create table Defendant(
-	Id_Defendant int primary key,
-	Name_Defendant varchar( 50 ) not null,
+	Defendant_ID int primary key,
+	FirstName varchar( 15 ) not null,
+	LastName varchar(15) not null,
 	Birth_Date date not null,
 	city varchar( 50 ) not null,
 	street varchar( 50 ) not null,
@@ -25,10 +27,10 @@ create table Defendant(
  
 create table Defedant_Phone
 (
-	Id_Defedant int,
+	Defendant_ID int,
 	phone varchar(15) not null,
-	FOREIGN KEY (Id_Defedant) REFERENCES Defendant(Id_Defendant),
-	CONSTRAINT PK_Defedant_Phone PRIMARY KEY (Id_Defedant,Phone)
+	FOREIGN KEY (Defendant_ID) REFERENCES Defendant(Defendant_ID),
+	CONSTRAINT PK_Defedant_Phone PRIMARY KEY (Defendant_ID,Phone)
 )
  
 create table Court_Room
@@ -40,8 +42,9 @@ create table Court_Room
  
 create table Judge
 (
-	Id_Judge int primary key,
-	Name_Judge varchar(50) not null,
+	Judge_Id int primary key,
+	FirstName varchar( 15 ) not null,
+	LastName varchar(15) not null,
 	Salary int,
 	Birth_Date date not null,
 	Apartment int not null,
@@ -51,25 +54,25 @@ create table Judge
  
 Create table Judge_Phone
 (
-	Id_Judge int ,
+	Judge_Id int ,
 	Phone varchar(15),
-	FOREIGN KEY (Id_Judge) REFERENCES Judge(Id_Judge),
-	CONSTRAINT PK_Person PRIMARY KEY (Id_Judge,Phone)
+	FOREIGN KEY (Judge_Id) REFERENCES Judge(Judge_Id),
+	CONSTRAINT PK_Person PRIMARY KEY (Judge_Id,Phone)
 )
  
 create table [Case](
-	Id_case int primary key,
+	Case_Id int primary key,
 	Type_case varchar( 50 ) not null,
 	Decision varchar( 50 ) not null,
 	Description_case varchar( 100 ) not null,
 	Case_Date date default getdate(),
-	Id_Judge int,
-	FOREIGN KEY (Id_Judge) REFERENCES Judge(Id_Judge)
+	Judge_Id int,
+	FOREIGN KEY (Judge_Id) REFERENCES Judge(Judge_Id)
 )
  
 create table Court_Clerk
 (
-	Id_Court_Clerk int primary key,
+	Court_Clerk_Id int primary key,
 	Cname varchar(30) not null,
 	Salary int,
 	Birth_Date date not null,
@@ -80,15 +83,15 @@ create table Court_Clerk
  
 Create table CourtClerk_Phone
 (
-	Id_Court_Clerk int,
+	Court_Clerk_Id int,
 	Clerk_Phone varchar(15),
-	FOREIGN KEY (Id_Court_Clerk ) REFERENCES Court_Clerk (Id_Court_Clerk ),
-	CONSTRAINT PK_CourtClerk_Phone PRIMARY KEY (Id_Court_Clerk,Clerk_Phone)
+	FOREIGN KEY (Court_Clerk_Id ) REFERENCES Court_Clerk (Court_Clerk_Id ),
+	CONSTRAINT PK_CourtClerk_Phone PRIMARY KEY (Court_Clerk_Id,Clerk_Phone)
 )
  
 create table Plaintiff
 (
-	Id_Plaintiff int primary key,
+	Plaintiff_Id int primary key,
 	Name_Plaintiff varchar(50) not null,
 	Birth_Date date not null,
 	Apartment int not null,
@@ -100,30 +103,30 @@ Create table Plaintiff_Phone
 (
 	Id_Plaintiff int,
 	Phone varchar(15),
-	FOREIGN KEY (Id_Plaintiff) REFERENCES Plaintiff(Id_Plaintiff),
+	FOREIGN KEY (Id_Plaintiff) REFERENCES Plaintiff(Plaintiff_Id),
 	CONSTRAINT PK_Plaintiff_Phone PRIMARY KEY (Id_Plaintiff,Phone)
 )
  
 create table Lawyer_Case_Plaintiff
 (
-	Id_Lawyer int,
-	Id_Plaintiff int,
-	Id_Case int,
-	CONSTRAINT PK_Lawyer_Case_Plaintiff PRIMARY KEY (Id_Lawyer,Id_Plaintiff,Id_Case),
-	FOREIGN KEY (Id_Case) REFERENCES [Case](Id_case),
-	FOREIGN KEY (Id_Lawyer) REFERENCES Lawyer(Id_Lawyer),
-	FOREIGN KEY (Id_Plaintiff) REFERENCES Plaintiff(Id_Plaintiff)
+	Plaintiff_id int,
+	Lawyer_Id int,
+	Case_Id int,
+	CONSTRAINT PK_Lawyer_Case_Plaintiff PRIMARY KEY (Lawyer_Id,Plaintiff_id,Case_Id),
+	FOREIGN KEY (Case_Id) REFERENCES [Case](Case_Id),
+	FOREIGN KEY (Lawyer_Id) REFERENCES Lawyer(Lawyer_Id),
+	FOREIGN KEY (Plaintiff_id) REFERENCES Plaintiff(Plaintiff_id)
 )
  
 create table Lawyer_Case_Defendant
 (
-	Id_Lawyer int,
-	Id_Defedant int,
-	Id_Case int,
-	CONSTRAINT PK_Lawyer_Case_Plaintiff_ PRIMARY KEY (Id_Lawyer,Id_Defedant,Id_Case),
-	FOREIGN KEY (Id_Case) REFERENCES [Case](Id_case),
-	FOREIGN KEY (Id_Lawyer) REFERENCES Lawyer(Id_Lawyer),
-	FOREIGN KEY (Id_Defedant) REFERENCES Defendant(Id_Defendant)
+	Lawyer_Id int,
+	Defendant_Id int,
+	Case_Id int,
+	CONSTRAINT PK_Lawyer_Case_Plaintiff_ PRIMARY KEY (Lawyer_Id,Defendant_Id,Case_Id),
+	FOREIGN KEY (Case_Id) REFERENCES [Case](Case_Id),
+	FOREIGN KEY (Lawyer_Id) REFERENCES Lawyer(Lawyer_Id),
+	FOREIGN KEY (Defendant_Id) REFERENCES Defendant(Defendant_Id)
 )
  
 create table [Session]
@@ -131,9 +134,9 @@ create table [Session]
 	Session_Number int primary key,
 	Session_Date date default getdate(),
 	Session_Time time not null,
-	Id_Court_Clerk int,
+	Court_Clerk_Id int,
 	Room_Name varchar( 50 ),
-	FOREIGN KEY (Id_Court_Clerk) REFERENCES Court_Clerk(Id_Court_Clerk),
+	FOREIGN KEY (Court_Clerk_Id) REFERENCES Court_Clerk(Court_Clerk_Id),
 	FOREIGN KEY (Room_Name) REFERENCES Court_Room(Room_Name),
 )
  
@@ -141,7 +144,6 @@ create table Case_Session(
 	Case_Id int,
 	Session_Number int,
 	CONSTRAINT PK_Case_Session PRIMARY KEY (Case_Id,Session_Number),
-	FOREIGN KEY (Case_Id) REFERENCES [Case](Id_case),
+	FOREIGN KEY (Case_Id) REFERENCES [Case](Case_Id),
 	FOREIGN KEY (Session_Number) REFERENCES [Session](Session_Number)
 )
-
