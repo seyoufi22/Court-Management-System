@@ -73,7 +73,8 @@ create table [Case](
 create table Court_Clerk
 (
 	Court_Clerk_Id int primary key,
-	Cname varchar(30) not null,
+	FirstName varchar(15) not null,
+	LastName varchar(15) not null,
 	Salary int,
 	Birth_Date date not null,
 	Apartment int not null,
